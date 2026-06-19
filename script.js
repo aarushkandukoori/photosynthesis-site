@@ -1,29 +1,32 @@
-// Floating light particles in hero
-(function initParticles() {
-  const container = document.getElementById('particles');
-  if (!container) return;
+// Theme toggle
+const themeToggle = document.getElementById('theme-toggle');
+const savedTheme = localStorage.getItem('theme');
 
-  for (let i = 0; i < 12; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.left = `${20 + Math.random() * 60}%`;
-    p.style.bottom = `${10 + Math.random() * 40}%`;
-    p.style.animationDelay = `${Math.random() * 3}s`;
-    p.style.animationDuration = `${2.5 + Math.random() * 2}s`;
-    container.appendChild(p);
+if (savedTheme) {
+  document.documentElement.setAttribute('data-theme', savedTheme);
+}
+
+themeToggle?.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  if (next === 'light') {
+    document.documentElement.removeAttribute('data-theme');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
   }
-})();
-
-// Mobile nav toggle
-const navToggle = document.querySelector('.nav-toggle');
-const navLinks = document.querySelector('.nav-links');
-
-navToggle?.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
+  localStorage.setItem('theme', next);
 });
 
-navLinks?.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => navLinks.classList.remove('open'));
+// Mobile nav
+const navToggle = document.getElementById('nav-toggle');
+const mainNav = document.querySelector('.main-nav');
+
+navToggle?.addEventListener('click', () => {
+  mainNav.classList.toggle('open');
+});
+
+mainNav?.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => mainNav.classList.remove('open'));
 });
 
 // Photosynthesis rate simulator
@@ -56,13 +59,10 @@ function updateSimulator() {
   fill.style.width = `${rate}%`;
   value.textContent = `${rate}%`;
 
-  const scale = 0.7 + (rate / 100) * 0.5;
+  const scale = 0.75 + (rate / 100) * 0.35;
+  const opacity = 0.3 + (rate / 100) * 0.7;
   plant.style.transform = `scale(${scale})`;
-
-  const leafColor = rate > 60 ? '#4a8f3f' : rate > 30 ? '#7a9f3a' : '#a08030';
-  plant.querySelectorAll('.sim-leaf').forEach(leaf => {
-    leaf.style.background = leafColor;
-  });
+  plant.style.opacity = opacity;
 
   if (rate >= 70) {
     status.textContent = 'Optimal conditions — photosynthesis is running efficiently.';
@@ -111,10 +111,9 @@ function showQuestion(index) {
     const selected = answers[index];
     const isCorrect = selected.dataset.correct !== undefined;
     feedback.hidden = false;
-    feedback.className = `quiz-feedback ${isCorrect ? 'correct' : 'wrong'}`;
     feedback.textContent = isCorrect
-      ? 'Correct! Well done.'
-      : 'Not quite — review the section above and try again next time.';
+      ? 'Correct.'
+      : 'Not quite — review the sections above.';
   }
 }
 
@@ -130,10 +129,9 @@ questions.forEach((q, qi) => {
       }
       q.querySelectorAll('.q-option').forEach(b => (b.disabled = true));
       feedback.hidden = false;
-      feedback.className = `quiz-feedback ${isCorrect ? 'correct' : 'wrong'}`;
       feedback.textContent = isCorrect
-        ? 'Correct! Well done.'
-        : 'Not quite — review the section above and try again next time.';
+        ? 'Correct.'
+        : 'Not quite — review the sections above.';
       nextBtn.disabled = false;
     });
   });
@@ -149,30 +147,9 @@ nextBtn.addEventListener('click', () => {
   } else {
     const score = answers.filter(a => a?.dataset.correct !== undefined).length;
     feedback.hidden = false;
-    feedback.className = 'quiz-feedback correct';
-    feedback.textContent = `Quiz complete! You scored ${score} out of ${questions.length}.`;
+    feedback.textContent = `Complete — ${score} of ${questions.length} correct.`;
     nextBtn.disabled = true;
   }
 });
 
 showQuestion(0);
-
-// Scroll reveal for cards and stages
-const observer = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  },
-  { threshold: 0.15 }
-);
-
-document.querySelectorAll('.card, .stage, .factor-card').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  observer.observe(el);
-});

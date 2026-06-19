@@ -3,188 +3,540 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Photosynthesis — How Plants Make Life</title>
+  <title>photosynth — Molecular Energy Conversion</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <nav class="nav">
-    <a href="#" class="nav-logo">🌿 PhotoSynth</a>
-    <ul class="nav-links">
-      <li><a href="#overview">Overview</a></li>
-      <li><a href="#equation">Equation</a></li>
-      <li><a href="#process">Process</a></li>
-      <li><a href="#factors">Factors</a></li>
-      <li><a href="#quiz">Quiz</a></li>
-    </ul>
-    <button class="nav-toggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+  <div class="announcement-bar">
+    <span>DISCOVERING HOW PLANTS CONVERT SUNLIGHT INTO THE ENERGY THAT POWERS ALL LIFE ON EARTH</span>
+    <a href="#overview">READ →</a>
+  </div>
 
-  <header class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-      <p class="hero-tag">The foundation of life on Earth</p>
-      <h1>Photosynthesis</h1>
-      <p class="hero-sub">How green plants, algae, and some bacteria convert sunlight into chemical energy — fueling nearly every food chain on the planet.</p>
-      <a href="#overview" class="btn">Explore the process</a>
-    </div>
-    <div class="hero-visual" aria-hidden="true">
-      <div class="sun"></div>
-      <div class="leaf">
-        <div class="chloroplast"></div>
-      </div>
-      <div class="particles" id="particles"></div>
+  <header class="site-header">
+    <a href="#" class="logo">
+      <svg class="logo-dots" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+        <circle cx="3" cy="3" r="2" fill="currentColor"/>
+        <circle cx="10" cy="3" r="2" fill="currentColor"/>
+        <circle cx="17" cy="3" r="2" fill="currentColor"/>
+        <circle cx="3" cy="10" r="2" fill="currentColor"/>
+        <circle cx="10" cy="10" r="2" fill="currentColor"/>
+        <circle cx="17" cy="10" r="2" fill="currentColor"/>
+        <circle cx="3" cy="17" r="2" fill="currentColor"/>
+        <circle cx="10" cy="17" r="2" fill="currentColor"/>
+        <circle cx="17" cy="17" r="2" fill="currentColor"/>
+      </svg>
+      photosynth
+    </a>
+    <nav class="main-nav">
+      <a href="#overview">Overview</a>
+      <a href="#equation">Equation</a>
+      <a href="#sequence">Process</a>
+      <a href="#factors">Factors</a>
+      <a href="#quiz">Quiz</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#overview" class="btn-cta">EXPLORE ↗</a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span>
+      </button>
     </div>
   </header>
+
+  <section class="hero">
+    <svg class="hero-lines" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path d="M-50 400 Q200 200 400 350 T800 300 T1200 400" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+      <path d="M-50 500 Q250 350 500 450 T900 380 T1250 500" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.2"/>
+      <path d="M0 300 Q300 150 600 280 T1100 250" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.15"/>
+      <path d="M100 600 Q350 450 550 550 T950 480 T1200 580" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.25"/>
+    </svg>
+
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span>Powered by</span>
+          <span class="badge-icon">☀</span>
+          <span class="badge-label">Sunlight</span>
+        </div>
+        <h1>
+          <span class="bracket">[Solar]</span><br>
+          Photosynthesis.
+        </h1>
+        <p class="hero-body">
+          Plants, algae, and cyanobacteria convert <span class="underline">photon energy</span> into chemical bonds — synthesizing glucose from <span class="underline">CO₂</span> and <span class="underline">H₂O</span> while releasing the oxygen that sustains nearly every aerobic organism on Earth.
+        </p>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <svg class="wireframe-globe" viewBox="0 0 500 500" fill="none">
+          <ellipse cx="250" cy="250" rx="200" ry="200" stroke="currentColor" stroke-width="0.6" opacity="0.25"/>
+          <ellipse cx="250" cy="250" rx="200" ry="80" stroke="currentColor" stroke-width="0.5" opacity="0.2" transform="rotate(-20 250 250)"/>
+          <ellipse cx="250" cy="250" rx="200" ry="80" stroke="currentColor" stroke-width="0.5" opacity="0.2" transform="rotate(30 250 250)"/>
+          <ellipse cx="250" cy="250" rx="200" ry="80" stroke="currentColor" stroke-width="0.5" opacity="0.2" transform="rotate(80 250 250)"/>
+          <ellipse cx="250" cy="250" rx="80" ry="200" stroke="currentColor" stroke-width="0.5" opacity="0.2"/>
+          <ellipse cx="250" cy="250" rx="140" ry="200" stroke="currentColor" stroke-width="0.4" opacity="0.15"/>
+          <path d="M50 250 Q150 120 250 180 T450 250" stroke="currentColor" stroke-width="0.5" opacity="0.2"/>
+          <path d="M50 250 Q150 380 250 320 T450 250" stroke="currentColor" stroke-width="0.5" opacity="0.2"/>
+          <circle cx="180" cy="180" r="3" fill="currentColor" opacity="0.5"/>
+          <circle cx="320" cy="150" r="3" fill="currentColor" opacity="0.5"/>
+          <circle cx="380" cy="280" r="3" fill="currentColor" opacity="0.5"/>
+          <circle cx="250" cy="100" r="3" fill="currentColor" opacity="0.5"/>
+          <circle cx="120" cy="300" r="3" fill="currentColor" opacity="0.5"/>
+          <circle cx="300" cy="380" r="3" fill="currentColor" opacity="0.5"/>
+          <circle cx="200" cy="350" r="2.5" fill="currentColor" opacity="0.35"/>
+          <circle cx="350" cy="220" r="2.5" fill="currentColor" opacity="0.35"/>
+          <line x1="180" y1="180" x2="320" y2="150" stroke="currentColor" stroke-width="0.4" opacity="0.15"/>
+          <line x1="320" y1="150" x2="380" y2="280" stroke="currentColor" stroke-width="0.4" opacity="0.15"/>
+          <line x1="180" y1="180" x2="120" y2="300" stroke="currentColor" stroke-width="0.4" opacity="0.15"/>
+          <line x1="250" y1="100" x2="320" y2="150" stroke="currentColor" stroke-width="0.4" opacity="0.15"/>
+          <line x1="380" y1="280" x2="300" y2="380" stroke="currentColor" stroke-width="0.4" opacity="0.15"/>
+          <path class="orbit" d="M80 250 A170 170 0 0 1 420 250" stroke="currentColor" stroke-width="0.6" opacity="0.3" fill="none"/>
+          <path class="orbit orbit-2" d="M100 200 A180 120 0 0 1 400 320" stroke="currentColor" stroke-width="0.5" opacity="0.2" fill="none"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="hero-divider"></div>
+    <p class="section-tag">/ SEQUENCE</p>
+  </section>
+
+  <section id="sequence" class="pin-section">
+    <div class="pin-track" id="pin-track">
+      <div class="pin-sticky">
+        <div class="pin-layout">
+          <div class="pin-copy">
+            <span class="pin-step" id="pin-step">01 — LIGHT CAPTURE</span>
+            <h2 class="pin-title" id="pin-title">Photons strike the leaf.</h2>
+            <p class="pin-desc" id="pin-desc">Sunlight hits chlorophyll molecules embedded in the thylakoid membranes. Each photon excites an electron, initiating the light-dependent reactions.</p>
+          </div>
+
+          <div class="pin-stage" id="pin-stage">
+            <svg id="cell-svg" class="cell-svg" viewBox="0 0 600 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Animated plant cell cross-section">
+              <defs>
+                <linearGradient id="sunGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f5c842" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#f4821f" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="wallGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#e8e4dc"/>
+                  <stop offset="100%" stop-color="#d4cfc4"/>
+                </linearGradient>
+                <linearGradient id="cytoplasmGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f7faf6"/>
+                  <stop offset="100%" stop-color="#eef5ea"/>
+                </linearGradient>
+                <linearGradient id="chlOuterGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#4a8f42"/>
+                  <stop offset="100%" stop-color="#2d6b28"/>
+                </linearGradient>
+                <linearGradient id="chlInnerGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#d4edc8"/>
+                  <stop offset="100%" stop-color="#b8ddb0"/>
+                </linearGradient>
+                <linearGradient id="thylakoidGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#5fa858"/>
+                  <stop offset="100%" stop-color="#3d7a37"/>
+                </linearGradient>
+                <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#f5c842" stop-opacity="0.6"/>
+                  <stop offset="100%" stop-color="#f5c842" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="4" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <filter id="bubbleBlur" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="1.5"/>
+                </filter>
+              </defs>
+
+              <!-- Sunlight layer -->
+              <g id="layer-sunlight" opacity="0">
+                <rect x="250" y="0" width="100" height="90" fill="url(#sunGrad)" opacity="0.35"/>
+                <line id="ray-1" x1="300" y1="5" x2="300" y2="95" stroke="#f5c842" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                <line id="ray-2" x1="270" y1="15" x2="285" y2="100" stroke="#f4821f" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
+                <line id="ray-3" x1="330" y1="15" x2="315" y2="100" stroke="#f4821f" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
+                <line id="ray-4" x1="245" y1="30" x2="268" y2="105" stroke="#f5c842" stroke-width="1" stroke-linecap="round" opacity="0.25"/>
+                <line id="ray-5" x1="355" y1="30" x2="332" y2="105" stroke="#f5c842" stroke-width="1" stroke-linecap="round" opacity="0.25"/>
+                <g id="photon-group">
+                  <circle id="photon-1" cx="285" cy="40" r="4" fill="#f5c842" opacity="0"/>
+                  <circle id="photon-2" cx="300" cy="25" r="3.5" fill="#f4821f" opacity="0"/>
+                  <circle id="photon-3" cx="315" cy="45" r="4" fill="#f5c842" opacity="0"/>
+                </g>
+              </g>
+
+              <!-- Plant cell -->
+              <g id="layer-cell">
+                <rect x="60" y="80" width="480" height="380" rx="28" fill="url(#wallGrad)" stroke="#b8b0a4" stroke-width="3"/>
+                <rect x="72" y="92" width="456" height="356" rx="22" fill="url(#cytoplasmGrad)" stroke="#c5deb8" stroke-width="1.5"/>
+                <!-- Cell wall texture -->
+                <line x1="90" y1="110" x2="510" y2="110" stroke="#c8c0b4" stroke-width="0.5" opacity="0.4"/>
+                <line x1="90" y1="430" x2="510" y2="430" stroke="#c8c0b4" stroke-width="0.5" opacity="0.4"/>
+                <!-- Vacuole hint -->
+                <ellipse cx="480" cy="380" rx="45" ry="35" fill="#e8f2fc" stroke="#b8d4ec" stroke-width="1" opacity="0.6"/>
+                <!-- Nucleus -->
+                <circle cx="130" cy="380" r="32" fill="#e8e0f0" stroke="#9a8ab0" stroke-width="1.5"/>
+                <circle cx="130" cy="380" r="14" fill="#6a5a8a" opacity="0.35"/>
+                <ellipse cx="122" cy="372" rx="8" ry="5" fill="#8a7aaa" opacity="0.25"/>
+              </g>
+
+              <!-- Chloroplast -->
+              <g id="chloroplast" transform="translate(300, 260)">
+                <!-- Outer envelope -->
+                <ellipse cx="0" cy="0" rx="195" ry="115" fill="url(#chlOuterGrad)" opacity="0.25"/>
+                <ellipse cx="0" cy="0" rx="195" ry="115" fill="none" stroke="#2d6b28" stroke-width="2.5"/>
+                <ellipse cx="0" cy="0" rx="185" ry="105" fill="url(#chlInnerGrad)" stroke="#4a8f42" stroke-width="1"/>
+
+                <!-- Stroma -->
+                <ellipse cx="0" cy="0" rx="175" ry="95" fill="#c8e8c0" opacity="0.5"/>
+
+                <!-- Calvin cycle ring -->
+                <g id="calvin-cycle" opacity="0">
+                  <circle cx="0" cy="15" r="55" fill="none" stroke="#3d7a37" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
+                  <circle cx="0" cy="15" r="40" fill="none" stroke="#5fa858" stroke-width="1" stroke-dasharray="4 6" opacity="0.35"/>
+                  <text x="0" y="78" text-anchor="middle" font-size="9" fill="#2d6b28" font-family="Inter,sans-serif" opacity="0.7">Calvin Cycle</text>
+                </g>
+
+                <!-- Starch granule -->
+                <g id="starch-granule" opacity="0">
+                  <ellipse cx="60" cy="30" rx="22" ry="14" fill="#e8dcc0" stroke="#c4b898" stroke-width="1"/>
+                  <ellipse cx="55" cy="28" rx="8" ry="5" fill="#f0e8d0" opacity="0.6"/>
+                  <ellipse cx="65" cy="32" rx="6" ry="4" fill="#f0e8d0" opacity="0.5"/>
+                </g>
+
+                <!-- Grana stacks (thylakoids) -->
+                <g id="grana-left">
+                  <g class="granum" transform="translate(-95, -35)">
+                    <ellipse cx="0" cy="0" rx="28" ry="7" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="14" rx="28" ry="7" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="28" rx="28" ry="7" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="42" rx="28" ry="7" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="56" rx="28" ry="7" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                  </g>
+                  <g class="granum" transform="translate(-55, -20)">
+                    <ellipse cx="0" cy="0" rx="24" ry="6" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="12" rx="24" ry="6" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="24" rx="24" ry="6" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="36" rx="24" ry="6" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                  </g>
+                </g>
+                <g id="grana-right">
+                  <g class="granum" transform="translate(55, -20)">
+                    <ellipse cx="0" cy="0" rx="24" ry="6" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="12" rx="24" ry="6" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="24" rx="24" ry="6" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="36" rx="24" ry="6" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                  </g>
+                  <g class="granum" transform="translate(95, -35)">
+                    <ellipse cx="0" cy="0" rx="28" ry="7" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="14" rx="28" ry="7" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="28" rx="28" ry="7" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="42" rx="28" ry="7" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                    <ellipse cx="0" cy="56" rx="28" ry="7" fill="url(#thylakoidGrad)" stroke="#2d5c25" stroke-width="0.8"/>
+                  </g>
+                </g>
+
+                <!-- Chlorophyll glow on grana -->
+                <g id="grana-glow" opacity="0" filter="url(#softGlow)">
+                  <ellipse cx="-75" cy="0" rx="40" ry="45" fill="url(#glowGrad)"/>
+                  <ellipse cx="75" cy="0" rx="40" ry="45" fill="url(#glowGrad)"/>
+                </g>
+
+                <!-- Electron transport chain -->
+                <g id="etc-path" opacity="0">
+                  <path d="M-95,-10 Q-60,-30 -30,-15 T20,-5 T70,-15 T110,-5" fill="none" stroke="#f5c842" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 6"/>
+                  <circle cx="-60" cy="-22" r="3" fill="#f4821f"/>
+                  <circle cx="-10" cy="-18" r="3" fill="#f4821f"/>
+                  <circle cx="40" cy="-10" r="3" fill="#f4821f"/>
+                  <circle cx="85" cy="-16" r="3" fill="#f4821f"/>
+                </g>
+
+                <!-- ATP synthase complexes -->
+                <g id="atp-synthase" opacity="0">
+                  <g transform="translate(-75, 20)">
+                    <rect x="-6" y="-8" width="12" height="16" rx="3" fill="#3d7a37" stroke="#2d5c25" stroke-width="0.8"/>
+                    <circle cx="0" cy="12" r="5" fill="none" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="3 2"/>
+                  </g>
+                  <g transform="translate(75, 20)">
+                    <rect x="-6" y="-8" width="12" height="16" rx="3" fill="#3d7a37" stroke="#2d5c25" stroke-width="0.8"/>
+                    <circle cx="0" cy="12" r="5" fill="none" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="3 2"/>
+                  </g>
+                </g>
+
+                <!-- H2O molecule (realistic bent structure) -->
+                <g id="mol-h2o" opacity="0">
+                  <circle cx="0" cy="0" r="10" fill="#4a9fd4" stroke="#2a7ab0" stroke-width="1.5"/>
+                  <text x="0" y="4" text-anchor="middle" font-size="8" fill="white" font-weight="600" font-family="Inter,sans-serif">O</text>
+                  <line x1="-8" y1="6" x2="-22" y2="18" stroke="#888" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="8" y1="6" x2="22" y2="18" stroke="#888" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="-24" cy="20" r="5" fill="#e8e8e8" stroke="#aaa" stroke-width="1"/>
+                  <circle cx="24" cy="20" r="5" fill="#e8e8e8" stroke="#aaa" stroke-width="1"/>
+                  <text x="-24" y="23" text-anchor="middle" font-size="6" fill="#666" font-family="Inter,sans-serif">H</text>
+                  <text x="24" y="23" text-anchor="middle" font-size="6" fill="#666" font-family="Inter,sans-serif">H</text>
+                </g>
+
+                <!-- Split water fragments -->
+                <g id="mol-h2o-split" opacity="0">
+                  <g id="split-h1" transform="translate(-30, 10)">
+                    <circle r="5" fill="#e8e8e8" stroke="#aaa" stroke-width="1"/>
+                    <text y="3" text-anchor="middle" font-size="6" fill="#666" font-family="Inter,sans-serif">H⁺</text>
+                  </g>
+                  <g id="split-h2" transform="translate(30, 10)">
+                    <circle r="5" fill="#e8e8e8" stroke="#aaa" stroke-width="1"/>
+                    <text y="3" text-anchor="middle" font-size="6" fill="#666" font-family="Inter,sans-serif">H⁺</text>
+                  </g>
+                  <g id="split-oh" transform="translate(0, -15)">
+                    <circle r="7" fill="#4a9fd4" stroke="#2a7ab0" stroke-width="1"/>
+                    <text y="3" text-anchor="middle" font-size="6" fill="white" font-family="Inter,sans-serif">OH</text>
+                  </g>
+                </g>
+
+                <!-- O2 bubbles -->
+                <g id="o2-bubbles" opacity="0">
+                  <g class="o2-bubble" transform="translate(-40, -80)">
+                    <circle r="12" fill="rgba(180,220,255,0.3)" stroke="#6ab0d4" stroke-width="1" filter="url(#bubbleBlur)"/>
+                    <text y="4" text-anchor="middle" font-size="8" fill="#2a7ab0" font-weight="600" font-family="Inter,sans-serif">O₂</text>
+                  </g>
+                  <g class="o2-bubble" transform="translate(20, -95)">
+                    <circle r="10" fill="rgba(180,220,255,0.3)" stroke="#6ab0d4" stroke-width="1" filter="url(#bubbleBlur)"/>
+                    <text y="3" text-anchor="middle" font-size="7" fill="#2a7ab0" font-weight="600" font-family="Inter,sans-serif">O₂</text>
+                  </g>
+                  <g class="o2-bubble" transform="translate(55, -70)">
+                    <circle r="9" fill="rgba(180,220,255,0.3)" stroke="#6ab0d4" stroke-width="1" filter="url(#bubbleBlur)"/>
+                    <text y="3" text-anchor="middle" font-size="7" fill="#2a7ab0" font-weight="600" font-family="Inter,sans-serif">O₂</text>
+                  </g>
+                </g>
+
+                <!-- ATP molecules -->
+                <g id="mol-atp-group" opacity="0">
+                  <g transform="translate(-90, -55)">
+                    <ellipse rx="22" ry="12" fill="#fff8e0" stroke="#e8b840" stroke-width="1.5"/>
+                    <text y="4" text-anchor="middle" font-size="9" fill="#b8860b" font-weight="700" font-family="Inter,sans-serif">ATP</text>
+                  </g>
+                  <g transform="translate(-50, -70)">
+                    <ellipse rx="18" ry="10" fill="#fff8e0" stroke="#e8b840" stroke-width="1.2"/>
+                    <text y="3" text-anchor="middle" font-size="8" fill="#b8860b" font-weight="700" font-family="Inter,sans-serif">ATP</text>
+                  </g>
+                </g>
+
+                <!-- NADPH -->
+                <g id="mol-nadph" opacity="0" transform="translate(90, -50)">
+                  <ellipse rx="28" ry="13" fill="#f0e8ff" stroke="#9a7ad0" stroke-width="1.5"/>
+                  <text y="4" text-anchor="middle" font-size="9" fill="#6a4aaa" font-weight="700" font-family="Inter,sans-serif">NADPH</text>
+                </g>
+
+                <!-- CO2 molecules -->
+                <g id="mol-co2-group" opacity="0">
+                  <g transform="translate(120, -60)">
+                    <circle cx="-12" cy="0" r="6" fill="#ff8866" stroke="#cc5544" stroke-width="1"/>
+                    <circle cx="12" cy="0" r="6" fill="#ff8866" stroke="#cc5544" stroke-width="1"/>
+                    <circle cx="0" cy="0" r="7" fill="#444" stroke="#222" stroke-width="1"/>
+                    <line x1="-6" y1="0" x2="6" y2="0" stroke="#888" stroke-width="2"/>
+                    <text x="0" y="22" text-anchor="middle" font-size="8" fill="#666" font-family="Inter,sans-serif">CO₂</text>
+                  </g>
+                  <g transform="translate(130, 10)">
+                    <circle cx="-10" cy="0" r="5" fill="#ff8866" stroke="#cc5544" stroke-width="1"/>
+                    <circle cx="10" cy="0" r="5" fill="#ff8866" stroke="#cc5544" stroke-width="1"/>
+                    <circle cx="0" cy="0" r="6" fill="#444" stroke="#222" stroke-width="1"/>
+                    <line x1="-5" y1="0" x2="5" y2="0" stroke="#888" stroke-width="1.5"/>
+                  </g>
+                </g>
+
+                <!-- G3P -->
+                <g id="mol-g3p" opacity="0" transform="translate(0, 45)">
+                  <path d="M-20,0 L-8,-12 L8,-12 L20,0 L8,12 L-8,12 Z" fill="#e8f5c0" stroke="#6a9a40" stroke-width="1.5"/>
+                  <text y="4" text-anchor="middle" font-size="9" fill="#3d6b20" font-weight="600" font-family="Inter,sans-serif">G3P</text>
+                </g>
+
+                <!-- Glucose (hexagon ring) -->
+                <g id="mol-glucose" opacity="0" transform="translate(0, 10)">
+                  <polygon points="0,-28 24,-14 24,14 0,28 -24,14 -24,-14" fill="#fffde8" stroke="#c8a840" stroke-width="2"/>
+                  <polygon points="0,-18 16,-9 16,9 0,18 -16,9 -16,-9" fill="none" stroke="#e8c860" stroke-width="1" opacity="0.5"/>
+                  <text y="5" text-anchor="middle" font-size="10" fill="#8a7020" font-weight="700" font-family="Inter,sans-serif">C₆H₁₂O₆</text>
+                </g>
+
+                <!-- Excited electrons -->
+                <g id="electrons" opacity="0">
+                  <circle cx="-80" cy="-25" r="2.5" fill="#f5c842"/>
+                  <circle cx="-40" cy="-35" r="2.5" fill="#f5c842"/>
+                  <circle cx="0" cy="-28" r="2.5" fill="#f5c842"/>
+                  <circle cx="45" cy="-32" r="2.5" fill="#f5c842"/>
+                  <circle cx="80" cy="-22" r="2.5" fill="#f5c842"/>
+                </g>
+              </g>
+
+              <!-- Water entering from below cell -->
+              <g id="water-inflow" opacity="0">
+                <g transform="translate(300, 470)">
+                  <circle cx="0" cy="0" r="8" fill="#4a9fd4" stroke="#2a7ab0" stroke-width="1"/>
+                  <line x1="-6" y1="4" x2="-16" y2="14" stroke="#888" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="6" y1="4" x2="16" y2="14" stroke="#888" stroke-width="1.5" stroke-linecap="round"/>
+                </g>
+              </g>
+
+              <text x="300" y="505" text-anchor="middle" font-size="10" fill="#888" font-family="Inter,sans-serif" id="cell-label">Plant Cell — Chloroplast Cross Section</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="pin-dots" id="pin-dots">
+          <span class="pin-dot active"></span>
+          <span class="pin-dot"></span>
+          <span class="pin-dot"></span>
+          <span class="pin-dot"></span>
+          <span class="pin-dot"></span>
+        </div>
+      </div>
+    </div>
+    <p class="section-tag pin-end-tag">/ OVERVIEW</p>
+  </section>
 
   <main>
     <section id="overview" class="section">
       <div class="container">
-        <h2>What is Photosynthesis?</h2>
-        <p class="lead">Photosynthesis is the biochemical process by which organisms use light energy to synthesize organic compounds from carbon dioxide and water.</p>
+        <h2 class="section-title">What is Photosynthesis?</h2>
+        <p class="section-lead">The biochemical process by which organisms use light energy to synthesize organic compounds from carbon dioxide and water.</p>
         <div class="card-grid">
           <article class="card">
-            <div class="card-icon">☀️</div>
+            <span class="card-index">01</span>
             <h3>Light Energy</h3>
-            <p>Sunlight is captured by chlorophyll pigments inside chloroplasts, primarily in plant leaves.</p>
+            <p>Sunlight is captured by <span class="underline">chlorophyll</span> pigments inside chloroplasts, primarily in plant leaves.</p>
           </article>
           <article class="card">
-            <div class="card-icon">💧</div>
+            <span class="card-index">02</span>
             <h3>Water</h3>
             <p>Absorbed through roots, water is split during the light-dependent reactions, releasing oxygen as a byproduct.</p>
           </article>
           <article class="card">
-            <div class="card-icon">🌬️</div>
+            <span class="card-index">03</span>
             <h3>Carbon Dioxide</h3>
-            <p>CO₂ enters leaves through tiny pores called stomata and is fixed into glucose during the Calvin cycle.</p>
+            <p>CO₂ enters leaves through <span class="underline">stomata</span> and is fixed into glucose during the Calvin cycle.</p>
           </article>
           <article class="card">
-            <div class="card-icon">🍃</div>
+            <span class="card-index">04</span>
             <h3>Glucose</h3>
             <p>The sugar produced stores energy and serves as building blocks for cellulose, starch, and other biomolecules.</p>
           </article>
         </div>
       </div>
+      <p class="section-tag">/ EQUATION</p>
     </section>
 
-    <section id="equation" class="section section-alt">
+    <section id="equation" class="section">
       <div class="container">
-        <h2>The Chemical Equation</h2>
-        <p class="lead">Photosynthesis can be summarized in one elegant reaction:</p>
-        <div class="equation-box">
+        <h2 class="section-title">The Chemical Equation</h2>
+        <p class="section-lead">Photosynthesis can be summarized in one elegant reaction.</p>
+        <div class="equation-block">
           <div class="equation">
-            <span class="reactant">6 CO<sub>2</sub></span>
-            <span class="plus">+</span>
-            <span class="reactant">6 H<sub>2</sub>O</span>
-            <span class="plus">+</span>
-            <span class="reactant light">light energy</span>
-            <span class="arrow">→</span>
-            <span class="product">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></span>
-            <span class="plus">+</span>
-            <span class="product">6 O<sub>2</sub></span>
+            <span>6 CO<sub>2</sub></span>
+            <span class="eq-op">+</span>
+            <span>6 H<sub>2</sub>O</span>
+            <span class="eq-op">+</span>
+            <span class="eq-light">light energy</span>
+            <span class="eq-arrow">→</span>
+            <span class="eq-highlight">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></span>
+            <span class="eq-op">+</span>
+            <span>6 O<sub>2</sub></span>
           </div>
-          <p class="equation-label">Six molecules of carbon dioxide and water, powered by sunlight, produce one glucose molecule and six oxygen molecules.</p>
+          <p class="equation-note">Six molecules of carbon dioxide and water, powered by sunlight, produce one glucose molecule and six oxygen molecules.</p>
         </div>
-        <div class="equation-facts">
-          <div class="fact">
+        <div class="stats-row">
+          <div class="stat">
             <strong>~50%</strong>
             <span>of Earth's oxygen comes from ocean phytoplankton</span>
           </div>
-          <div class="fact">
-            <strong>100+ billion</strong>
+          <div class="stat">
+            <strong>100B+</strong>
             <span>tons of CO₂ fixed by photosynthesis each year</span>
           </div>
-          <div class="fact">
-            <strong>3.5 billion</strong>
-            <span>years — how long photosynthesis has shaped our atmosphere</span>
+          <div class="stat">
+            <strong>3.5B</strong>
+            <span>years photosynthesis has shaped our atmosphere</span>
           </div>
         </div>
       </div>
+      <p class="section-tag">/ PROCESS</p>
     </section>
 
     <section id="process" class="section">
       <div class="container">
-        <h2>Two Stages of Photosynthesis</h2>
-        <p class="lead">Photosynthesis occurs in two interconnected stages inside the chloroplast.</p>
+        <h2 class="section-title">Two Stages</h2>
+        <p class="section-lead">Photosynthesis occurs in two interconnected stages inside the chloroplast.</p>
 
-        <div class="stages">
-          <article class="stage" data-stage="1">
-            <div class="stage-header">
-              <span class="stage-num">01</span>
-              <h3>Light-Dependent Reactions</h3>
-              <span class="stage-location">Thylakoid membranes</span>
-            </div>
-            <div class="stage-body">
-              <ul>
-                <li>Chlorophyll absorbs photons of light</li>
-                <li>Water molecules are split (<em>photolysis</em>)</li>
-                <li>ATP and NADPH are produced</li>
-                <li>Oxygen is released into the atmosphere</li>
-              </ul>
-              <div class="stage-flow">
-                <span>Light</span> → <span>ATP + NADPH</span> → <span>O₂</span>
+        <div class="process-grid">
+          <article class="process-card">
+            <div class="process-header">
+              <span class="process-num">01</span>
+              <div>
+                <h3>Light-Dependent Reactions</h3>
+                <span class="process-loc">Thylakoid membranes</span>
               </div>
             </div>
+            <ul>
+              <li>Chlorophyll absorbs photons of light</li>
+              <li>Water molecules are split (<em>photolysis</em>)</li>
+              <li>ATP and NADPH are produced</li>
+              <li>Oxygen is released into the atmosphere</li>
+            </ul>
+            <div class="process-flow">Light → ATP + NADPH → O₂</div>
           </article>
 
-          <div class="stage-connector" aria-hidden="true">
-            <svg viewBox="0 0 40 80" fill="none"><path d="M20 0v60M10 50l10 10 10-10" stroke="currentColor" stroke-width="2"/></svg>
-          </div>
-
-          <article class="stage" data-stage="2">
-            <div class="stage-header">
-              <span class="stage-num">02</span>
-              <h3>Calvin Cycle</h3>
-              <span class="stage-location">Stroma</span>
-            </div>
-            <div class="stage-body">
-              <ul>
-                <li>CO₂ is fixed by the enzyme RuBisCO</li>
-                <li>ATP and NADPH from Stage 1 power the cycle</li>
-                <li>3-carbon molecules (G3P) are formed</li>
-                <li>G3P is assembled into glucose</li>
-              </ul>
-              <div class="stage-flow">
-                <span>CO₂</span> → <span>G3P</span> → <span>Glucose</span>
+          <article class="process-card">
+            <div class="process-header">
+              <span class="process-num">02</span>
+              <div>
+                <h3>Calvin Cycle</h3>
+                <span class="process-loc">Stroma</span>
               </div>
             </div>
+            <ul>
+              <li>CO₂ is fixed by the enzyme RuBisCO</li>
+              <li>ATP and NADPH from Stage 1 power the cycle</li>
+              <li>3-carbon molecules (G3P) are formed</li>
+              <li>G3P is assembled into glucose</li>
+            </ul>
+            <div class="process-flow">CO₂ → G3P → Glucose</div>
           </article>
         </div>
 
-        <div class="chloroplast-diagram" aria-label="Diagram of a chloroplast">
+        <div class="diagram-block">
           <h3>Inside the Chloroplast</h3>
-          <svg viewBox="0 0 400 220" class="chloroplast-svg">
-            <ellipse cx="200" cy="110" rx="185" ry="95" fill="#2d5a27" stroke="#4a8f3f" stroke-width="3"/>
-            <ellipse cx="200" cy="110" rx="175" ry="85" fill="none" stroke="#6bb85a" stroke-width="1" stroke-dasharray="4 4"/>
-            <g class="thylakoids">
-              <rect x="60" y="50" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="60" y="70" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="60" y="90" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="60" y="110" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="60" y="130" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="60" y="150" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="260" y="50" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="260" y="70" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="260" y="90" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="260" y="110" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="260" y="130" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
-              <rect x="260" y="150" width="80" height="12" rx="6" fill="#7ec876" opacity="0.9"/>
+          <svg viewBox="0 0 400 220" class="chloroplast-svg" aria-label="Chloroplast diagram">
+            <ellipse cx="200" cy="110" rx="185" ry="95" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+            <ellipse cx="200" cy="110" rx="175" ry="85" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="4 4" opacity="0.2"/>
+            <g opacity="0.5">
+              <rect x="60" y="50" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="60" y="70" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="60" y="90" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="60" y="110" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="60" y="130" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="60" y="150" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="260" y="50" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="260" y="70" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="260" y="90" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="260" y="110" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="260" y="130" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
+              <rect x="260" y="150" width="80" height="10" rx="5" fill="currentColor" opacity="0.4"/>
             </g>
-            <text x="100" y="185" fill="#c8f0c0" font-size="11" font-family="Outfit, sans-serif">Thylakoids (Light reactions)</text>
-            <text x="230" y="115" fill="#c8f0c0" font-size="11" font-family="Outfit, sans-serif">Stroma (Calvin cycle)</text>
+            <text x="75" y="190" fill="currentColor" font-size="10" font-family="Inter, sans-serif" opacity="0.4">Thylakoids</text>
+            <text x="240" y="115" fill="currentColor" font-size="10" font-family="Inter, sans-serif" opacity="0.4">Stroma</text>
           </svg>
         </div>
       </div>
+      <p class="section-tag">/ FACTORS</p>
     </section>
 
-    <section id="factors" class="section section-alt">
+    <section id="factors" class="section">
       <div class="container">
-        <h2>Factors That Affect Photosynthesis</h2>
-        <p class="lead">The rate of photosynthesis depends on environmental conditions. Drag the sliders to see how each factor influences the process.</p>
+        <h2 class="section-title">Environmental Factors</h2>
+        <p class="section-lead">The rate of photosynthesis depends on environmental conditions. Adjust the sliders to see how each factor influences the process.</p>
 
         <div class="simulator">
           <div class="sim-controls">
@@ -206,13 +558,15 @@
             </label>
           </div>
           <div class="sim-output">
-            <div class="sim-plant" id="sim-plant">
-              <div class="sim-leaf left"></div>
-              <div class="sim-stem"></div>
-              <div class="sim-leaf right"></div>
+            <div class="sim-visual" id="sim-plant">
+              <svg viewBox="0 0 120 140" width="120" height="140">
+                <line x1="60" y1="140" x2="60" y2="80" stroke="currentColor" stroke-width="2" opacity="0.4"/>
+                <path class="sim-leaf left" d="M60 90 Q20 70 25 40 Q40 60 60 90" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path class="sim-leaf right" d="M60 75 Q100 55 95 30 Q80 50 60 75" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              </svg>
             </div>
             <div class="sim-meter">
-              <span>Photosynthesis Rate</span>
+              <span class="meter-label">Photosynthesis Rate</span>
               <div class="meter-bar"><div class="meter-fill" id="meter-fill"></div></div>
               <span class="meter-value" id="meter-value">72%</span>
             </div>
@@ -220,7 +574,7 @@
           </div>
         </div>
 
-        <div class="factor-cards">
+        <div class="factor-grid">
           <article class="factor-card">
             <h4>Light</h4>
             <p>Too little light limits energy capture. Beyond a saturation point, more light doesn't increase the rate.</p>
@@ -239,11 +593,12 @@
           </article>
         </div>
       </div>
+      <p class="section-tag">/ QUIZ</p>
     </section>
 
     <section id="quiz" class="section">
       <div class="container">
-        <h2>Test Your Knowledge</h2>
+        <h2 class="section-title">Test Your Knowledge</h2>
         <div class="quiz" id="quiz">
           <div class="quiz-question active" data-q="0">
             <p class="q-text">Where do the light-dependent reactions of photosynthesis take place?</p>
@@ -274,9 +629,9 @@
           </div>
           <div class="quiz-feedback" id="quiz-feedback" hidden></div>
           <div class="quiz-nav">
-            <button class="btn btn-outline" id="quiz-prev" disabled>Previous</button>
+            <button class="btn-secondary" id="quiz-prev" disabled>Previous</button>
             <span class="quiz-progress" id="quiz-progress">1 / 3</span>
-            <button class="btn" id="quiz-next" disabled>Next</button>
+            <button class="btn-cta btn-sm" id="quiz-next" disabled>Next</button>
           </div>
         </div>
       </div>
@@ -285,11 +640,27 @@
 
   <footer class="footer">
     <div class="container">
-      <p>Photosynthesis powers life on Earth — from the smallest algae to the tallest redwood.</p>
-      <p class="footer-credit">Built for learning · 2026</p>
+      <div class="footer-inner">
+        <a href="#" class="logo logo-footer">
+          <svg class="logo-dots" width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
+            <circle cx="3" cy="3" r="2" fill="currentColor"/>
+            <circle cx="10" cy="3" r="2" fill="currentColor"/>
+            <circle cx="17" cy="3" r="2" fill="currentColor"/>
+            <circle cx="3" cy="10" r="2" fill="currentColor"/>
+            <circle cx="10" cy="10" r="2" fill="currentColor"/>
+            <circle cx="17" cy="10" r="2" fill="currentColor"/>
+            <circle cx="3" cy="17" r="2" fill="currentColor"/>
+            <circle cx="10" cy="17" r="2" fill="currentColor"/>
+            <circle cx="17" cy="17" r="2" fill="currentColor"/>
+          </svg>
+          photosynth
+        </a>
+        <p>Photosynthesis powers life on Earth — from the smallest algae to the tallest redwood.</p>
+      </div>
     </div>
   </footer>
 
+  <script src="scroll-pin.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
