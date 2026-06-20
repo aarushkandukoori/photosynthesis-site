@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
   <div class="announcement-bar">
@@ -831,8 +831,9 @@
       <div class="container">
         <h2 class="section-title">Test Your Knowledge</h2>
         <div class="quiz-wrap">
-          <div class="quiz" id="quiz">
-            <div class="quiz-question active" data-q="0">
+          <div class="quiz" id="quiz-box">
+            <div id="quiz-questions">
+              <div class="quiz-question active" data-q="0">
               <p class="q-text">Where do the light-dependent reactions of photosynthesis take place?</p>
               <div class="q-options">
                 <button type="button" class="q-option" data-correct="true">Thylakoid membranes</button>
@@ -858,6 +859,11 @@
                 <button type="button" class="q-option" data-correct="true">ATP</button>
                 <button type="button" class="q-option">Chlorophyll</button>
               </div>
+            </div>
+            </div>
+            <div class="quiz-results" id="quiz-results" hidden>
+              <p id="quiz-results-text"></p>
+              <button type="button" class="btn-secondary" id="quiz-retry">Try again</button>
             </div>
             <div class="quiz-feedback" id="quiz-feedback" hidden></div>
             <div class="quiz-nav">
@@ -894,7 +900,7 @@
     </div>
   </footer>
 
-  <script src="scroll-pin.js"></script>
-  <script src="script.js"></script>
+  <script src="scroll-pin.js?v=2"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

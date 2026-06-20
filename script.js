@@ -47,7 +47,7 @@ if (equationBlock) {
   if (!diagram || !tooltip || !wrap) return;
 
   diagram.querySelectorAll('.chl-part').forEach(part => {
-    part.addEventListener('mouseenter', e => {
+    part.addEventListener('mouseenter', () => {
       const label = part.dataset.label;
       const desc = part.dataset.desc;
       if (!label) return;
@@ -97,24 +97,20 @@ function updateSimulator() {
   fill.style.width = `${rate}%`;
   value.textContent = `${rate}%`;
 
-  // Light → sun size & ray opacity
   const sunGroup = document.getElementById('sim-sun-group');
   const sunRays = document.getElementById('sim-sun-rays');
   const sunScale = 0.4 + (light / 100) * 0.8;
   if (sunGroup) sunGroup.setAttribute('transform', `translate(252, 48) scale(${sunScale})`);
   if (sunRays) sunRays.style.opacity = 0.2 + (light / 100) * 0.8;
 
-  // CO2 → smog density (low CO2 = thin haze, high = thick smog)
   const smog = document.getElementById('sim-smog');
   if (smog) smog.setAttribute('opacity', Math.min(0.85, 0.1 + (co2 / 100) * 0.75));
 
-  // Temperature → heat/cold overlay
   const heat = document.getElementById('sim-heat');
   const cold = document.getElementById('sim-cold');
   if (heat) heat.setAttribute('opacity', temp > 32 ? Math.min(0.35, (temp - 32) / 25) : 0);
   if (cold) cold.setAttribute('opacity', temp < 10 ? Math.min(0.4, (10 - temp) / 15) : 0);
 
-  // Water → puddle size, rain, cracks
   const waterEl = document.getElementById('sim-water');
   const rain = document.getElementById('sim-rain');
   const cracks = document.getElementById('sim-cracks');
@@ -125,11 +121,7 @@ function updateSimulator() {
   if (rain) rain.setAttribute('opacity', water > 60 ? Math.min(0.9, (water - 60) / 50) : 0);
   if (cracks) cracks.setAttribute('opacity', water < 25 ? Math.min(1, (25 - water) / 25) : 0);
 
-  // Plant state
   const plantGroup = document.getElementById('sim-plant-group');
-  const leafL = document.getElementById('sim-leaf-l');
-  const leafR = document.getElementById('sim-leaf-r');
-  const leafTop = document.getElementById('sim-leaf-top');
   const allLeaves = document.querySelectorAll('.sim-leaf');
   const stem = document.getElementById('sim-stem');
   const flower = document.getElementById('sim-flower');
@@ -192,8 +184,9 @@ function updateSimulator() {
   allLeaves.forEach(el => el.setAttribute('fill', leafColor));
   if (stem) stem.setAttribute('stroke', stemColor);
 
-  // Wilt when stressed
   const wilt = rate < 30 && !isDead ? 0.15 : 0;
+  const leafL = document.getElementById('sim-leaf-l');
+  const leafR = document.getElementById('sim-leaf-r');
   if (leafL) leafL.setAttribute('transform', `rotate(${-wilt * 15})`);
   if (leafR) leafR.setAttribute('transform', `rotate(${wilt * 15})`);
 }
@@ -205,32 +198,41 @@ updateSimulator();
 
 // Quiz
 (function initQuiz() {
-  const questions = document.querySelectorAll('.quiz-question');
+  const quizBox = document.getElementById('quiz-box');
+  const questionsWrap = document.getElementById('quiz-questions');
+  const questions = quizBox?.querySelectorAll('.quiz-question') || [];
   const feedback = document.getElementById('quiz-feedback');
+  const results = document.getElementById('quiz-results');
+  const resultsText = document.getElementById('quiz-results-text');
+  const retryBtn = document.getElementById('quiz-retry');
   const prevBtn = document.getElementById('quiz-prev');
   const nextBtn = document.getElementById('quiz-next');
   const progress = document.getElementById('quiz-progress');
-  const quizEl = document.getElementById('quiz');
 
-  if (!questions.length || !quizEl || !feedback || !nextBtn || !prevBtn || !progress) return;
+  if (!quizBox || !questionsWrap || !questions.length || !feedback || !results || !resultsText || !retryBtn || !prevBtn || !nextBtn || !progress) {
+    return;
+  }
 
   let currentQ = 0;
-  let completed = false;
+  let finished = false;
   const answers = new Array(questions.length).fill(null);
 
   function showQuestion(index) {
-    completed = false;
+    finished = false;
+    questionsWrap.hidden = false;
+    results.hidden = true;
+    feedback.hidden = true;
+    feedback.classList.remove('quiz-complete');
+    prevBtn.hidden = false;
+    nextBtn.hidden = false;
+    progress.hidden = false;
+
     questions.forEach((q, i) => q.classList.toggle('active', i === index));
     progress.textContent = `${index + 1} / ${questions.length}`;
     prevBtn.disabled = index === 0;
     nextBtn.disabled = answers[index] === null;
     nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
-    nextBtn.hidden = false;
-    prevBtn.hidden = false;
-    progress.hidden = false;
-    feedback.classList.remove('quiz-complete');
 
-    feedback.hidden = true;
     const q = questions[index];
     q.querySelectorAll('.q-option').forEach(btn => {
       btn.disabled = answers[index] !== null;
@@ -242,8 +244,7 @@ updateSimulator();
     });
 
     if (answers[index] !== null) {
-      const selected = answers[index];
-      const isCorrect = selected.dataset.correct !== undefined;
+      const isCorrect = answers[index].dataset.correct !== undefined;
       feedback.hidden = false;
       feedback.textContent = isCorrect
         ? 'Correct.'
@@ -251,60 +252,75 @@ updateSimulator();
     }
   }
 
-  function showResults(score, total) {
-    completed = true;
-    questions.forEach(q => q.classList.remove('active'));
+  function selectAnswer(btn) {
+    if (finished) return;
+    const qEl = btn.closest('.quiz-question');
+    if (!qEl) return;
+    const qi = Number(qEl.dataset.q);
+    if (Number.isNaN(qi) || answers[qi] !== null) return;
+
+    answers[qi] = btn;
+    const isCorrect = btn.dataset.correct !== undefined;
+    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) {
+      qEl.querySelector('[data-correct]')?.classList.add('correct');
+    }
+    qEl.querySelectorAll('.q-option').forEach(b => (b.disabled = true));
+    feedback.hidden = false;
+    feedback.textContent = isCorrect
+      ? 'Correct.'
+      : 'Not quite — review the sections above.';
+    if (qi === currentQ) nextBtn.disabled = false;
+  }
+
+  function showResults() {
+    finished = true;
+    const score = answers.filter(a => a?.dataset.correct !== undefined).length;
+    const total = questions.length;
+    const pct = Math.round((score / total) * 100);
+
+    questionsWrap.hidden = true;
     prevBtn.hidden = true;
     nextBtn.hidden = true;
     progress.hidden = true;
-    feedback.hidden = false;
-    feedback.classList.add('quiz-complete');
+    feedback.hidden = true;
 
-    const pct = Math.round((score / total) * 100);
-    if (score === total) {
-      feedback.textContent = `Quiz complete — perfect score! You got ${score} of ${total} correct.`;
-    } else if (score >= 2) {
-      feedback.textContent = `Quiz complete — you scored ${score} of ${total} (${pct}%). Review any missed topics above.`;
-    } else {
-      feedback.textContent = `Quiz complete — you scored ${score} of ${total} (${pct}%). Scroll up to review the material and try again.`;
-    }
-
-    document.getElementById('quiz')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    resultsText.textContent = score === total
+      ? `Perfect score! You got ${score} of ${total} correct.`
+      : `You scored ${score} of ${total} (${pct}%). Review any missed topics above, then try again.`;
+    results.hidden = false;
   }
 
-  questions.forEach((q, qi) => {
-    q.querySelectorAll('.q-option').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (completed || answers[qi] !== null) return;
-        answers[qi] = btn;
-        const isCorrect = btn.dataset.correct !== undefined;
-        btn.classList.add(isCorrect ? 'correct' : 'wrong');
-        if (!isCorrect) {
-          q.querySelector('[data-correct]').classList.add('correct');
-        }
-        q.querySelectorAll('.q-option').forEach(b => (b.disabled = true));
-        feedback.hidden = false;
-        feedback.textContent = isCorrect
-          ? 'Correct.'
-          : 'Not quite — review the sections above.';
-        nextBtn.disabled = false;
+  function resetQuiz() {
+    answers.fill(null);
+    currentQ = 0;
+    questions.forEach(q => {
+      q.querySelectorAll('.q-option').forEach(btn => {
+        btn.disabled = false;
+        btn.classList.remove('correct', 'wrong');
       });
     });
+    showQuestion(0);
+  }
+
+  quizBox.addEventListener('click', e => {
+    const btn = e.target.closest('.q-option');
+    if (btn) selectAnswer(btn);
   });
 
   prevBtn.addEventListener('click', () => {
-    if (!completed && currentQ > 0) showQuestion(--currentQ);
+    if (!finished && currentQ > 0) showQuestion(--currentQ);
   });
 
   nextBtn.addEventListener('click', () => {
-    if (completed) return;
+    if (finished || answers[currentQ] === null) return;
     if (currentQ < questions.length - 1) {
       showQuestion(++currentQ);
     } else {
-      const score = answers.filter(a => a?.dataset.correct !== undefined).length;
-      showResults(score, questions.length);
+      showResults();
     }
   });
 
+  retryBtn.addEventListener('click', resetQuiz);
   showQuestion(0);
 })();
