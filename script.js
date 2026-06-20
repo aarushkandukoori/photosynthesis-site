@@ -195,3 +195,132 @@ function updateSimulator() {
   document.getElementById(id)?.addEventListener('input', updateSimulator);
 });
 updateSimulator();
+
+// Quiz
+(function initQuiz() {
+  const quizBox = document.getElementById('quiz-box');
+  const questionsWrap = document.getElementById('quiz-questions');
+  const questions = quizBox?.querySelectorAll('.quiz-question') || [];
+  const feedback = document.getElementById('quiz-feedback');
+  const results = document.getElementById('quiz-results');
+  const resultsText = document.getElementById('quiz-results-text');
+  const retryBtn = document.getElementById('quiz-retry');
+  const prevBtn = document.getElementById('quiz-prev');
+  const nextBtn = document.getElementById('quiz-next');
+  const progress = document.getElementById('quiz-progress');
+
+  if (!quizBox || !questionsWrap || !questions.length || !feedback || !results || !resultsText || !retryBtn || !prevBtn || !nextBtn || !progress) {
+    return;
+  }
+
+  let currentQ = 0;
+  let finished = false;
+  const answers = new Array(questions.length).fill(null);
+
+  function showQuestion(index) {
+    finished = false;
+    questionsWrap.hidden = false;
+    results.hidden = true;
+    feedback.hidden = true;
+    feedback.classList.remove('quiz-complete');
+    prevBtn.hidden = false;
+    nextBtn.hidden = false;
+    progress.hidden = false;
+
+    questions.forEach((q, i) => q.classList.toggle('active', i === index));
+    progress.textContent = `${index + 1} / ${questions.length}`;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = answers[index] === null;
+    nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
+
+    const q = questions[index];
+    q.querySelectorAll('.q-option').forEach(btn => {
+      btn.disabled = answers[index] !== null;
+      btn.classList.remove('correct', 'wrong');
+      if (answers[index] !== null) {
+        if (btn.dataset.correct !== undefined) btn.classList.add('correct');
+        else if (btn === answers[index]) btn.classList.add('wrong');
+      }
+    });
+
+    if (answers[index] !== null) {
+      const isCorrect = answers[index].dataset.correct !== undefined;
+      feedback.hidden = false;
+      feedback.textContent = isCorrect
+        ? 'Correct.'
+        : 'Not quite — review the sections above.';
+    }
+  }
+
+  function selectAnswer(btn) {
+    if (finished) return;
+    const qEl = btn.closest('.quiz-question');
+    if (!qEl) return;
+    const qi = Number(qEl.dataset.q);
+    if (Number.isNaN(qi) || answers[qi] !== null) return;
+
+    answers[qi] = btn;
+    const isCorrect = btn.dataset.correct !== undefined;
+    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) {
+      qEl.querySelector('[data-correct]')?.classList.add('correct');
+    }
+    qEl.querySelectorAll('.q-option').forEach(b => (b.disabled = true));
+    feedback.hidden = false;
+    feedback.textContent = isCorrect
+      ? 'Correct.'
+      : 'Not quite — review the sections above.';
+    if (qi === currentQ) nextBtn.disabled = false;
+  }
+
+  function showResults() {
+    finished = true;
+    const score = answers.filter(a => a?.dataset.correct !== undefined).length;
+    const total = questions.length;
+    const pct = Math.round((score / total) * 100);
+
+    questionsWrap.hidden = true;
+    prevBtn.hidden = true;
+    nextBtn.hidden = true;
+    progress.hidden = true;
+    feedback.hidden = true;
+
+    resultsText.textContent = score === total
+      ? `Perfect score! You got ${score} of ${total} correct.`
+      : `You scored ${score} of ${total} (${pct}%). Review any missed topics above, then try again.`;
+    results.hidden = false;
+  }
+
+  function resetQuiz() {
+    answers.fill(null);
+    currentQ = 0;
+    questions.forEach(q => {
+      q.querySelectorAll('.q-option').forEach(btn => {
+        btn.disabled = false;
+        btn.classList.remove('correct', 'wrong');
+      });
+    });
+    showQuestion(0);
+  }
+
+  quizBox.addEventListener('click', e => {
+    const btn = e.target.closest('.q-option');
+    if (btn) selectAnswer(btn);
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (!finished && currentQ > 0) showQuestion(--currentQ);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (finished || answers[currentQ] === null) return;
+    if (currentQ < questions.length - 1) {
+      showQuestion(++currentQ);
+    } else {
+      showResults();
+    }
+  });
+
+  retryBtn.addEventListener('click', resetQuiz);
+  showQuestion(0);
+})();
