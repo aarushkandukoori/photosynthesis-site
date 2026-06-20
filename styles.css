@@ -1020,11 +1020,18 @@ body {
 .quiz-celebration {
   position: absolute;
   inset: 0;
+  z-index: 4;
+  background: rgba(255,255,255,0.92);
+}
+
+.quiz-celebration[hidden] {
+  display: none !important;
+}
+
+.quiz-celebration:not([hidden]) {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 4;
-  background: rgba(255,255,255,0.92);
   animation: celebFadeIn 0.5s ease;
 }
 
