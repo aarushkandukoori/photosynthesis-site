@@ -204,152 +204,164 @@ function updateSimulator() {
 updateSimulator();
 
 // Quiz
-const questions = document.querySelectorAll('.quiz-question');
-const feedback = document.getElementById('quiz-feedback');
-const prevBtn = document.getElementById('quiz-prev');
-const nextBtn = document.getElementById('quiz-next');
-const progress = document.getElementById('quiz-progress');
-const quizEl = document.getElementById('quiz');
-const celebration = document.getElementById('quiz-celebration');
-const celebrationScore = document.getElementById('celebration-score');
-const celebrationTitle = document.getElementById('celebration-title');
-const celebrationEmoji = document.getElementById('celebration-emoji');
-let currentQ = 0;
-const answers = new Array(questions.length).fill(null);
+(function initQuiz() {
+  const questions = document.querySelectorAll('.quiz-question');
+  const feedback = document.getElementById('quiz-feedback');
+  const prevBtn = document.getElementById('quiz-prev');
+  const nextBtn = document.getElementById('quiz-next');
+  const progress = document.getElementById('quiz-progress');
+  const quizEl = document.getElementById('quiz');
+  const celebration = document.getElementById('quiz-celebration');
+  const celebrationScore = document.getElementById('celebration-score');
+  const celebrationTitle = document.getElementById('celebration-title');
+  const celebrationEmoji = document.getElementById('celebration-emoji');
 
-function showQuestion(index) {
-  questions.forEach((q, i) => q.classList.toggle('active', i === index));
-  progress.textContent = `${index + 1} / ${questions.length}`;
-  prevBtn.disabled = index === 0;
-  nextBtn.disabled = answers[index] === null;
-  nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
+  if (!questions.length || !quizEl || !celebration) return;
 
-  feedback.hidden = true;
-  const q = questions[index];
-  q.querySelectorAll('.q-option').forEach(btn => {
-    btn.disabled = answers[index] !== null;
-    btn.classList.remove('correct', 'wrong');
-    if (answers[index] !== null) {
-      if (btn.dataset.correct !== undefined) btn.classList.add('correct');
-      else if (btn === answers[index]) btn.classList.add('wrong');
-    }
-  });
+  let currentQ = 0;
+  const answers = new Array(questions.length).fill(null);
 
-  if (answers[index] !== null) {
-    const selected = answers[index];
-    const isCorrect = selected.dataset.correct !== undefined;
-    feedback.hidden = false;
-    feedback.textContent = isCorrect
-      ? 'Correct.'
-      : 'Not quite — review the sections above.';
+  function hideCelebration() {
+    celebration.classList.remove('is-active');
+    celebration.setAttribute('aria-hidden', 'true');
+    quizEl.classList.remove('celebrating');
   }
-}
 
-questions.forEach((q, qi) => {
-  q.querySelectorAll('.q-option').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (answers[qi] !== null) return;
-      answers[qi] = btn;
-      const isCorrect = btn.dataset.correct !== undefined;
-      btn.classList.add(isCorrect ? 'correct' : 'wrong');
-      if (!isCorrect) {
-        q.querySelector('[data-correct]').classList.add('correct');
+  function showQuestion(index) {
+    questions.forEach((q, i) => q.classList.toggle('active', i === index));
+    progress.textContent = `${index + 1} / ${questions.length}`;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = answers[index] === null;
+    nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
+
+    feedback.hidden = true;
+    const q = questions[index];
+    q.querySelectorAll('.q-option').forEach(btn => {
+      btn.disabled = answers[index] !== null;
+      btn.classList.remove('correct', 'wrong');
+      if (answers[index] !== null) {
+        if (btn.dataset.correct !== undefined) btn.classList.add('correct');
+        else if (btn === answers[index]) btn.classList.add('wrong');
       }
-      q.querySelectorAll('.q-option').forEach(b => (b.disabled = true));
+    });
+
+    if (answers[index] !== null) {
+      const selected = answers[index];
+      const isCorrect = selected.dataset.correct !== undefined;
       feedback.hidden = false;
       feedback.textContent = isCorrect
         ? 'Correct.'
         : 'Not quite — review the sections above.';
-      nextBtn.disabled = false;
+    }
+  }
+
+  questions.forEach((q, qi) => {
+    q.querySelectorAll('.q-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (answers[qi] !== null) return;
+        answers[qi] = btn;
+        const isCorrect = btn.dataset.correct !== undefined;
+        btn.classList.add(isCorrect ? 'correct' : 'wrong');
+        if (!isCorrect) {
+          q.querySelector('[data-correct]').classList.add('correct');
+        }
+        q.querySelectorAll('.q-option').forEach(b => (b.disabled = true));
+        feedback.hidden = false;
+        feedback.textContent = isCorrect
+          ? 'Correct.'
+          : 'Not quite — review the sections above.';
+        nextBtn.disabled = false;
+      });
     });
   });
-});
 
-prevBtn.addEventListener('click', () => {
-  if (currentQ > 0) showQuestion(--currentQ);
-});
+  prevBtn?.addEventListener('click', () => {
+    if (currentQ > 0) showQuestion(--currentQ);
+  });
 
-function launchConfetti() {
-  const canvas = document.getElementById('confetti-canvas');
-  if (!canvas || !quizEl) return;
-  const ctx = canvas.getContext('2d');
-  const rect = quizEl.getBoundingClientRect();
-  canvas.width = rect.width;
-  canvas.height = rect.height;
+  function launchConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas || !quizEl) return;
+    const ctx = canvas.getContext('2d');
+    const rect = quizEl.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
 
-  const colors = ['#3d7a37', '#f5c842', '#4a9fd4', '#f4821f', '#5fa858', '#ff88aa'];
-  const pieces = Array.from({ length: 80 }, () => ({
-    x: canvas.width / 2,
-    y: canvas.height / 2,
-    vx: (Math.random() - 0.5) * 12,
-    vy: (Math.random() - 1) * 14,
-    color: colors[Math.floor(Math.random() * colors.length)],
-    size: 4 + Math.random() * 6,
-    rot: Math.random() * 360,
-    spin: (Math.random() - 0.5) * 15,
-    life: 1,
-  }));
+    const colors = ['#3d7a37', '#f5c842', '#4a9fd4', '#f4821f', '#5fa858', '#ff88aa'];
+    const pieces = Array.from({ length: 80 }, () => ({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      vx: (Math.random() - 0.5) * 12,
+      vy: (Math.random() - 1) * 14,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      size: 4 + Math.random() * 6,
+      rot: Math.random() * 360,
+      spin: (Math.random() - 0.5) * 15,
+      life: 1,
+    }));
 
-  let frame = 0;
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let alive = false;
-    pieces.forEach(p => {
-      if (p.life <= 0) return;
-      alive = true;
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vy += 0.25;
-      p.rot += p.spin;
-      p.life -= 0.008;
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate((p.rot * Math.PI) / 180);
-      ctx.globalAlpha = p.life;
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
-      ctx.restore();
-    });
-    frame++;
-    if (alive && frame < 180) requestAnimationFrame(draw);
-    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let frame = 0;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let alive = false;
+      pieces.forEach(p => {
+        if (p.life <= 0) return;
+        alive = true;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.25;
+        p.rot += p.spin;
+        p.life -= 0.008;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+        ctx.restore();
+      });
+      frame++;
+      if (alive && frame < 180) requestAnimationFrame(draw);
+      else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    draw();
   }
-  draw();
-}
 
-function showCelebration(score, total) {
-  const pct = score / total;
-  if (pct === 1) {
-    celebrationTitle.textContent = 'Photosynthesis Master!';
-    celebrationEmoji.textContent = '🌿';
-  } else if (pct >= 0.66) {
-    celebrationTitle.textContent = 'Great work!';
-    celebrationEmoji.textContent = '🍃';
-  } else {
-    celebrationTitle.textContent = 'Keep learning!';
-    celebrationEmoji.textContent = '🌱';
+  function showCelebration(score, total) {
+    const pct = score / total;
+    if (pct === 1) {
+      celebrationTitle.textContent = 'Photosynthesis Master!';
+      celebrationEmoji.textContent = '🌿';
+    } else if (pct >= 0.66) {
+      celebrationTitle.textContent = 'Great work!';
+      celebrationEmoji.textContent = '🍃';
+    } else {
+      celebrationTitle.textContent = 'Keep learning!';
+      celebrationEmoji.textContent = '🌱';
+    }
+    celebrationScore.textContent = `You scored ${score} out of ${total} — ${Math.round(pct * 100)}%`;
+    celebration.classList.add('is-active');
+    celebration.setAttribute('aria-hidden', 'false');
+    quizEl.classList.add('celebrating');
+    launchConfetti();
+
+    setTimeout(() => {
+      hideCelebration();
+      feedback.hidden = false;
+      feedback.textContent = `Quiz complete — ${score} of ${total} correct. Scroll up to review any topics!`;
+    }, 4000);
   }
-  celebrationScore.textContent = `You scored ${score} out of ${total} — ${Math.round(pct * 100)}%`;
-  celebration.hidden = false;
-  quizEl.classList.add('celebrating');
-  launchConfetti();
 
-  setTimeout(() => {
-    celebration.hidden = true;
-    quizEl.classList.remove('celebrating');
-    feedback.hidden = false;
-    feedback.textContent = `Quiz complete — ${score} of ${total} correct. Scroll up to review any topics!`;
-  }, 4000);
-}
+  nextBtn?.addEventListener('click', () => {
+    if (currentQ < questions.length - 1) {
+      showQuestion(++currentQ);
+    } else {
+      const score = answers.filter(a => a?.dataset.correct !== undefined).length;
+      nextBtn.disabled = true;
+      showCelebration(score, questions.length);
+    }
+  });
 
-nextBtn.addEventListener('click', () => {
-  if (currentQ < questions.length - 1) {
-    showQuestion(++currentQ);
-  } else {
-    const score = answers.filter(a => a?.dataset.correct !== undefined).length;
-    nextBtn.disabled = true;
-    showCelebration(score, questions.length);
-  }
-});
-
-showQuestion(0);
+  hideCelebration();
+  showQuestion(0);
+})();
