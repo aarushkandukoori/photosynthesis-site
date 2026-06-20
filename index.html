@@ -657,78 +657,142 @@
               <svg viewBox="0 0 320 300" class="sim-svg" id="sim-svg">
                 <defs>
                   <linearGradient id="simSky" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#87CEEB"/>
-                    <stop offset="100%" stop-color="#e8f4fc"/>
+                    <stop offset="0%" stop-color="#5ba3d9"/>
+                    <stop offset="55%" stop-color="#9ec9e8"/>
+                    <stop offset="100%" stop-color="#d8ebf7"/>
                   </linearGradient>
-                  <linearGradient id="simSun" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#ffe566"/>
+                  <radialGradient id="simSunCore" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#fff8c8"/>
+                    <stop offset="45%" stop-color="#ffd84d"/>
                     <stop offset="100%" stop-color="#f5a623"/>
-                  </linearGradient>
+                  </radialGradient>
+                  <radialGradient id="simSunGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#ffe566" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="#ffe566" stop-opacity="0"/>
+                  </radialGradient>
                   <linearGradient id="simGround" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#8B7355"/>
-                    <stop offset="100%" stop-color="#6B5344"/>
+                    <stop offset="0%" stop-color="#6d8f4e"/>
+                    <stop offset="18%" stop-color="#5a7a3f"/>
+                    <stop offset="100%" stop-color="#4a3d2f"/>
                   </linearGradient>
+                  <linearGradient id="simSoil" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#7a5c3e"/>
+                    <stop offset="100%" stop-color="#4a3528"/>
+                  </linearGradient>
+                  <linearGradient id="simLeafGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#6fbf58"/>
+                    <stop offset="100%" stop-color="#2f7a2f"/>
+                  </linearGradient>
+                  <linearGradient id="simWaterGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#7ec8e8" stop-opacity="0.75"/>
+                    <stop offset="100%" stop-color="#3a8fb8" stop-opacity="0.45"/>
+                  </linearGradient>
+                  <filter id="simSmogBlur" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="8"/>
+                  </filter>
+                  <filter id="simSoftGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="6" result="b"/>
+                    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
                 </defs>
                 <!-- Sky -->
                 <rect id="sim-sky" x="0" y="0" width="320" height="220" fill="url(#simSky)"/>
+                <!-- Distant hills -->
+                <path d="M0 205 Q50 185 100 198 T200 192 T320 205 L320 220 L0 220 Z" fill="#8cb86a" opacity="0.45"/>
+                <path d="M0 212 Q80 198 160 208 T320 212 L320 220 L0 220 Z" fill="#6f9f52" opacity="0.35"/>
+                <!-- Clouds -->
+                <g opacity="0.92">
+                  <ellipse cx="70" cy="52" rx="34" ry="14" fill="#fff"/>
+                  <ellipse cx="95" cy="48" rx="26" ry="12" fill="#fff"/>
+                  <ellipse cx="52" cy="56" rx="20" ry="10" fill="#f4f8fc"/>
+                  <ellipse cx="230" cy="68" rx="28" ry="11" fill="#fff" opacity="0.85"/>
+                  <ellipse cx="252" cy="64" rx="22" ry="9" fill="#fff" opacity="0.85"/>
+                </g>
                 <!-- Temperature overlay -->
                 <rect id="sim-heat" x="0" y="0" width="320" height="300" fill="#ff4400" opacity="0"/>
                 <rect id="sim-cold" x="0" y="0" width="320" height="300" fill="#88ccff" opacity="0"/>
                 <!-- Sun -->
-                <g id="sim-sun-group" transform="translate(260, 45)">
-                  <circle r="28" fill="url(#simSun)" class="sim-sun"/>
-                  <g id="sim-sun-rays" stroke="#f5c842" stroke-width="2" stroke-linecap="round">
-                    <line x1="0" y1="-38" x2="0" y2="-48"/>
-                    <line x1="27" y1="-27" x2="34" y2="-34"/>
-                    <line x1="38" y1="0" x2="48" y2="0"/>
-                    <line x1="27" y1="27" x2="34" y2="34"/>
-                    <line x1="-27" y1="-27" x2="-34" y2="-34"/>
-                    <line x1="-38" y1="0" x2="-48" y2="0"/>
+                <g id="sim-sun-group" transform="translate(252, 48)">
+                  <circle r="42" fill="url(#simSunGlow)" opacity="0.8"/>
+                  <circle r="24" fill="url(#simSunCore)" class="sim-sun"/>
+                  <g id="sim-sun-rays" stroke="#ffd84d" stroke-width="1.5" stroke-linecap="round" opacity="0.7">
+                    <line x1="0" y1="-34" x2="0" y2="-46"/>
+                    <line x1="24" y1="-24" x2="32" y2="-32"/>
+                    <line x1="34" y1="0" x2="46" y2="0"/>
+                    <line x1="24" y1="24" x2="32" y2="32"/>
+                    <line x1="-24" y1="-24" x2="-32" y2="-32"/>
+                    <line x1="-34" y1="0" x2="-46" y2="0"/>
+                    <line x1="-24" y1="24" x2="-32" y2="32"/>
+                    <line x1="0" y1="34" x2="0" y2="46"/>
                   </g>
                 </g>
                 <!-- Smog / CO2 haze -->
-                <g id="sim-smog" opacity="0">
-                  <ellipse cx="160" cy="120" rx="140" ry="60" fill="#888" opacity="0.25"/>
-                  <ellipse cx="100" cy="100" rx="50" ry="30" fill="#666" opacity="0.2"/>
-                  <ellipse cx="220" cy="110" rx="60" ry="35" fill="#777" opacity="0.2"/>
-                  <text x="160" y="125" text-anchor="middle" font-size="9" fill="#555" font-family="Inter,sans-serif" opacity="0.6">CO₂ / smog</text>
+                <g id="sim-smog" opacity="0" filter="url(#simSmogBlur)">
+                  <ellipse cx="160" cy="128" rx="130" ry="52" fill="#6a6a72" opacity="0.35"/>
+                  <ellipse cx="95" cy="108" rx="48" ry="28" fill="#555" opacity="0.28"/>
+                  <ellipse cx="225" cy="115" rx="55" ry="30" fill="#666" opacity="0.28"/>
+                  <ellipse cx="160" cy="145" rx="90" ry="35" fill="#888" opacity="0.2"/>
                 </g>
                 <!-- Ground -->
                 <rect x="0" y="220" width="320" height="80" fill="url(#simGround)"/>
+                <rect x="0" y="232" width="320" height="68" fill="url(#simSoil)" opacity="0.55"/>
+                <!-- Grass blades -->
+                <g stroke="#4d7a32" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.75">
+                  <path d="M20 222 Q22 210 18 202"/><path d="M35 222 Q38 212 33 204"/><path d="M52 222 Q55 211 50 203"/>
+                  <path d="M250 222 Q253 212 248 204"/><path d="M268 222 Q271 210 266 202"/><path d="M290 222 Q293 213 288 205"/>
+                  <path d="M130 222 Q132 214 128 208"/><path d="M190 222 Q193 213 188 207"/>
+                </g>
                 <!-- Water puddle -->
-                <ellipse id="sim-water" cx="160" cy="235" rx="80" ry="12" fill="#4a9fd4" opacity="0.5"/>
+                <ellipse id="sim-water" cx="160" cy="238" rx="70" ry="10" fill="url(#simWaterGrad)"/>
+                <ellipse cx="145" cy="236" rx="22" ry="3" fill="#fff" opacity="0.25"/>
                 <!-- Cracks (dry) -->
-                <g id="sim-cracks" opacity="0" stroke="#5a4a3a" stroke-width="1">
-                  <path d="M120 240 L130 250 M180 238 L175 248 M200 242 L210 252"/>
+                <g id="sim-cracks" opacity="0" stroke="#3d2e22" stroke-width="1.2" fill="none" stroke-linecap="round">
+                  <path d="M95 245 L102 252 L98 258 M140 242 L148 250 L144 257 M210 244 L218 251 M235 246 L228 254 L232 260"/>
                 </g>
                 <!-- Plant -->
-                <g id="sim-plant-group" transform="translate(160, 220)">
-                  <line id="sim-stem" x1="0" y1="0" x2="0" y2="-70" stroke="#3d7a37" stroke-width="5" stroke-linecap="round"/>
-                  <path id="sim-leaf-l" d="M0 -50 Q-45 -70 -50 -100 Q-20 -75 0 -50" fill="#4a9f3f" stroke="#2d6b28" stroke-width="1"/>
-                  <path id="sim-leaf-r" d="M0 -60 Q45 -80 48 -110 Q20 -85 0 -60" fill="#4a9f3f" stroke="#2d6b28" stroke-width="1"/>
-                  <path id="sim-leaf-top" d="M0 -70 Q-15 -120 0 -130 Q15 -120 0 -70" fill="#5aad4e" stroke="#2d6b28" stroke-width="1"/>
-                  <!-- Flower (prosper) -->
-                  <g id="sim-flower" opacity="0" transform="translate(0, -135)">
-                    <circle r="8" fill="#f5c842"/>
-                    <circle cx="-10" cy="-5" r="6" fill="#ff88aa"/>
-                    <circle cx="10" cy="-5" r="6" fill="#ff88aa"/>
-                    <circle cx="0" cy="8" r="6" fill="#ff88aa"/>
+                <g id="sim-plant-group" transform="translate(160, 222)">
+                  <!-- Soil mound -->
+                  <ellipse cx="0" cy="4" rx="28" ry="8" fill="#5a4030"/>
+                  <ellipse cx="0" cy="2" rx="22" ry="5" fill="#6d5040" opacity="0.7"/>
+                  <!-- Roots hint -->
+                  <g stroke="#5a4030" stroke-width="1.5" fill="none" opacity="0.5">
+                    <path d="M0 4 Q-12 12 -18 18"/><path d="M0 4 Q10 11 16 17"/><path d="M0 4 Q0 14 2 20"/>
                   </g>
-                  <!-- Dead X -->
+                  <path id="sim-stem" d="M0 2 C-2 -20 3 -45 0 -78 C-1 -95 0 -108 0 -118" fill="none" stroke="#2d6b28" stroke-width="4.5" stroke-linecap="round"/>
+                  <path id="sim-leaf-l" class="sim-leaf" d="M0 -42 C-18 -48 -42 -62 -54 -88 C-38 -72 -18 -58 0 -48 Z" fill="#4a9f3f" stroke="#1f5a1a" stroke-width="0.8"/>
+                  <path class="sim-leaf-vein" d="M0 -46 C-16 -58 -30 -70 -42 -82" fill="none" stroke="#1f5a1a" stroke-width="0.5" opacity="0.5"/>
+                  <path id="sim-leaf-r" class="sim-leaf" d="M0 -55 C20 -60 46 -78 52 -102 C36 -84 18 -68 0 -58 Z" fill="#4a9f3f" stroke="#1f5a1a" stroke-width="0.8"/>
+                  <path class="sim-leaf-vein" d="M0 -57 C18 -72 34 -86 44 -96" fill="none" stroke="#1f5a1a" stroke-width="0.5" opacity="0.5"/>
+                  <path id="sim-leaf-top" class="sim-leaf" d="M0 -72 C-8 -98 -4 -118 0 -132 C6 -118 10 -98 0 -72 Z" fill="#5aad4e" stroke="#1f5a1a" stroke-width="0.8"/>
+                  <path class="sim-leaf-vein" d="M0 -76 L0 -128" fill="none" stroke="#1f5a1a" stroke-width="0.5" opacity="0.45"/>
+                  <path class="sim-leaf" d="M0 -88 C-22 -94 -34 -108 -30 -122 C-14 -108 -4 -96 0 -90 Z" fill="#4a9f3f" stroke="#1f5a1a" stroke-width="0.7" opacity="0.9"/>
+                  <path class="sim-leaf" d="M0 -95 C18 -100 32 -114 28 -126 C14 -114 6 -102 0 -97 Z" fill="#4a9f3f" stroke="#1f5a1a" stroke-width="0.7" opacity="0.9"/>
+                  <!-- Flower (prosper) -->
+                  <g id="sim-flower" opacity="0" transform="translate(0, -128)">
+                    <path d="M0 0 L0 14" stroke="#2d6b28" stroke-width="1.5"/>
+                    <circle r="5" fill="#f5c842"/>
+                    <ellipse cx="-9" cy="-2" rx="7" ry="10" fill="#ff7aa8" transform="rotate(-25)"/>
+                    <ellipse cx="9" cy="-2" rx="7" ry="10" fill="#ff7aa8" transform="rotate(25)"/>
+                    <ellipse cx="0" cy="-10" rx="7" ry="10" fill="#ff9ab8"/>
+                    <ellipse cx="-7" cy="6" rx="6" ry="9" fill="#ff88aa" transform="rotate(-50)"/>
+                    <ellipse cx="7" cy="6" rx="6" ry="9" fill="#ff88aa" transform="rotate(50)"/>
+                  </g>
+                  <!-- Dead wilt -->
                   <g id="sim-dead" opacity="0">
-                    <line x1="-15" y1="-115" x2="15" y2="-95" stroke="#8B4513" stroke-width="3"/>
-                    <line x1="15" y1="-115" x2="-15" y2="-95" stroke="#8B4513" stroke-width="3"/>
+                    <path d="M-20 -95 Q-8 -88 0 -82" fill="none" stroke="#6B5344" stroke-width="2"/>
+                    <path d="M20 -100 Q8 -92 0 -86" fill="none" stroke="#6B5344" stroke-width="2"/>
+                    <path d="M0 -118 Q10 -108 14 -98" fill="none" stroke="#8B7355" stroke-width="2"/>
                   </g>
                 </g>
                 <!-- Rain -->
-                <g id="sim-rain" opacity="0">
-                  <line x1="80" y1="30" x2="75" y2="50" stroke="#4a9fd4" stroke-width="1"/>
-                  <line x1="120" y1="20" x2="115" y2="45" stroke="#4a9fd4" stroke-width="1"/>
-                  <line x1="200" y1="25" x2="205" y2="48" stroke="#4a9fd4" stroke-width="1"/>
-                  <line x1="240" y1="35" x2="235" y2="55" stroke="#4a9fd4" stroke-width="1"/>
+                <g id="sim-rain" opacity="0" stroke="#6eb8e0" stroke-width="1.2" stroke-linecap="round">
+                  <line x1="60" y1="20" x2="54" y2="42"/><line x1="95" y1="12" x2="89" y2="38"/>
+                  <line x1="140" y1="18" x2="134" y2="44"/><line x1="185" y1="10" x2="179" y2="36"/>
+                  <line x1="220" y1="22" x2="214" y2="46"/><line x1="260" y1="15" x2="254" y2="40"/>
+                  <line x1="110" y1="35" x2="104" y2="58"/><line x1="200" y1="32" x2="194" y2="55"/>
                 </g>
                 <!-- Prosper glow -->
-                <ellipse id="sim-glow" cx="160" cy="170" rx="60" ry="80" fill="#f5c842" opacity="0"/>
+                <ellipse id="sim-glow" cx="160" cy="165" rx="55" ry="75" fill="#f5c842" opacity="0" filter="url(#simSoftGlow)"/>
               </svg>
               <div class="sim-badge" id="sim-badge" hidden></div>
             </div>

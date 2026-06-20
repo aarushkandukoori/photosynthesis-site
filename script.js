@@ -101,7 +101,7 @@ function updateSimulator() {
   const sunGroup = document.getElementById('sim-sun-group');
   const sunRays = document.getElementById('sim-sun-rays');
   const sunScale = 0.4 + (light / 100) * 0.8;
-  if (sunGroup) sunGroup.setAttribute('transform', `translate(260, 45) scale(${sunScale})`);
+  if (sunGroup) sunGroup.setAttribute('transform', `translate(252, 48) scale(${sunScale})`);
   if (sunRays) sunRays.style.opacity = 0.2 + (light / 100) * 0.8;
 
   // CO2 → smog density (low CO2 = thin haze, high = thick smog)
@@ -119,8 +119,8 @@ function updateSimulator() {
   const rain = document.getElementById('sim-rain');
   const cracks = document.getElementById('sim-cracks');
   if (waterEl) {
-    waterEl.setAttribute('rx', 20 + (water / 100) * 70);
-    waterEl.setAttribute('opacity', 0.15 + (water / 100) * 0.6);
+    waterEl.setAttribute('rx', 18 + (water / 100) * 62);
+    waterEl.setAttribute('opacity', 0.25 + (water / 100) * 0.75);
   }
   if (rain) rain.setAttribute('opacity', water > 60 ? Math.min(0.9, (water - 60) / 50) : 0);
   if (cracks) cracks.setAttribute('opacity', water < 25 ? Math.min(1, (25 - water) / 25) : 0);
@@ -130,6 +130,7 @@ function updateSimulator() {
   const leafL = document.getElementById('sim-leaf-l');
   const leafR = document.getElementById('sim-leaf-r');
   const leafTop = document.getElementById('sim-leaf-top');
+  const allLeaves = document.querySelectorAll('.sim-leaf');
   const stem = document.getElementById('sim-stem');
   const flower = document.getElementById('sim-flower');
   const dead = document.getElementById('sim-dead');
@@ -187,8 +188,8 @@ function updateSimulator() {
     }
   }
 
-  if (plantGroup) plantGroup.setAttribute('transform', `translate(160, 220) scale(${scale})`);
-  [leafL, leafR, leafTop].forEach(el => { if (el) el.setAttribute('fill', leafColor); });
+  if (plantGroup) plantGroup.setAttribute('transform', `translate(160, 222) scale(${scale})`);
+  allLeaves.forEach(el => el.setAttribute('fill', leafColor));
   if (stem) stem.setAttribute('stroke', stemColor);
 
   // Wilt when stressed
